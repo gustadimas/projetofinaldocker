@@ -5,6 +5,14 @@ services:
     container_name: api
     env_file:
       - .env
+    read_only: true
+    tmpfs:
+      - /tmp
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
     ports:
       - "8080:8000"
     depends_on:
@@ -19,6 +27,7 @@ services:
     container_name: db
     env_file:
       - .env
+    restart: unless-stopped
     volumes:
       - db_data:/var/lib/postgresql/data
     healthcheck:
